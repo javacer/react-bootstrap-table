@@ -916,25 +916,15 @@ class BootstrapTable extends Component {
       const cells = firstRow.childNodes;
       for (let i = 0; i < cells.length; i++) {
         const cell = cells[i];
-        const computedStyle = getComputedStyle(cell);
-        if (computedStyle.width !== "auto") {
-          let width = parseFloat(computedStyle.width.replace('px', ''));
-          if (this.isIE) {
-            const paddingLeftWidth = parseFloat(computedStyle.paddingLeft.replace('px', ''));
-            const paddingRightWidth = parseFloat(computedStyle.paddingRight.replace('px', ''));
-            const borderRightWidth = parseFloat(computedStyle.borderRightWidth.replace('px', ''));
-            const borderLeftWidth = parseFloat(computedStyle.borderLeftWidth.replace('px', ''));
-            width = width + paddingLeftWidth + paddingRightWidth + borderRightWidth + borderLeftWidth;
-          }
-          const lastPadding = (cells.length - 1 === i ? scrollBarWidth : 0);
-          if (width <= 0) {
-            width = 120;
-            cell.width = width + lastPadding + 'px';
-          }
-          const result = width + lastPadding + 'px';
-          header.childNodes[i].style.width = result;
-          header.childNodes[i].style.minWidth = result;
+        let width = cell.getBoundingClientRect().width;
+        const lastPadding = (cells.length - 1 === i ? scrollBarWidth : 0);
+        if (width <= 0) {
+          width = 120;
+          cell.width = width + lastPadding + 'px';
         }
+        const result = width + lastPadding + 'px';
+        header.childNodes[i].style.width = result;
+        header.childNodes[i].style.minWidth = result;
       }
     } else {
       React.Children.forEach(this.props.children, (child, i) => {
