@@ -14,7 +14,7 @@ class Checkbox extends Component {
     return (
       <input className='react-bs-select-all'
         type='checkbox'
-        checked={ this.props.checked }
+        checked={ this.props.checked === true }
         onChange={ this.props.onChange } />
     );
   }
